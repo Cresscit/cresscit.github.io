@@ -334,10 +334,10 @@ function setupLenis() {
     smoothWheel: true,
   });
   // Anchor links routed through Lenis for a smooth glide.
-  // Preview-machine triggers are excluded — their click opens the overlay
-  // instead of scrolling (their href stays as the no-JS fallback).
+  // Overlay triggers (preview machine, quote form) are excluded — their click
+  // opens the overlay instead of scrolling (href stays as the no-JS fallback).
   document.querySelectorAll('a[href^="#"]').forEach((a) => {
-    if (a.hasAttribute('data-preview-trigger')) return;
+    if (a.hasAttribute('data-preview-trigger') || a.hasAttribute('data-quote-trigger')) return;
     a.addEventListener('click', (e) => {
       const id = a.getAttribute('href');
       if (id.length < 2) return;
@@ -383,6 +383,38 @@ function setupPreviewTriggers() {
 }
 
 /* --------------------------------------------------------------------------
+   Quote Form triggers — same lazy pattern as the Preview Machine:
+   js/quote-form.js is dynamically imported on first [data-quote-trigger]
+   click; the trigger's href (mailto / #pricing) stays as the no-JS fallback.
+   -------------------------------------------------------------------------- */
+function setupQuoteTriggers() {
+  const triggers = document.querySelectorAll('[data-quote-trigger]');
+  if (!triggers.length) return;
+
+  let modPromise = null;
+  const loadModule = () => (modPromise ||= import('./quote-form.js'));
+
+  triggers.forEach((trigger) => {
+    trigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      loadModule()
+        .then((mod) => {
+          mod.openQuoteForm({
+            trigger,
+            reducedMotion: prefersReduced,
+            lockScroll: () => { if (lenis) lenis.stop(); },
+            unlockScroll: () => { if (lenis) lenis.start(); },
+          });
+        })
+        .catch(() => {
+          // Module unavailable — degrade to the link's own destination.
+          window.location.href = trigger.getAttribute('href');
+        });
+    });
+  });
+}
+
+/* --------------------------------------------------------------------------
    THE single rAF loop
    -------------------------------------------------------------------------- */
 function startLoop() {
@@ -409,6 +441,7 @@ function boot() {
   setupCardTilt();
   setupLenis();
   setupPreviewTriggers();
+  setupQuoteTriggers();
 
   // Run progress once so initial (above-the-fold) state is correct.
   runProgress();

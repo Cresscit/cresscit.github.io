@@ -36,7 +36,8 @@ work — ES modules and the import map require an `http(s)` origin.
 index.html          404.html
 css/tokens.css      css/main.css        (all design tokens live in tokens.css)
 js/main.js          js/hero-scene.js    (main = one rAF loop; hero-scene = WebGL)
-js/preview-machine.js                   (CTA overlay — lazy, loads on first click)
+js/preview-machine.js  js/quote-form.js (CTA overlays — lazy, load on first click)
+js/site-config.js                       (CONTACT_EMAIL — one place to change it)
 assets/vendor/      assets/fonts/       assets/img/favicon.svg
 content/            (specs + copy.md — source of truth, not shipped code)
 ```
@@ -67,6 +68,15 @@ component library.
   zero bytes in the initial load; the triggers' `href`s remain the no-JS
   fallback. User input is rendered via `textContent` only and never leaves the
   page except in the visitor's own mailto handoff.
+- **Quote Form** ("Request a Quote" / "Get a Quote"): the same dialog contract,
+  lazily imported from `js/quote-form.js` on first click. A short intake
+  (nothing required) that on submit opens the visitor's mail client with the
+  answers pre-written to `CONTACT_EMAIL`, with a copy-to-clipboard fallback.
+  Answers never leave the page except via the visitor's own mail app/clipboard.
+- **Contact email** is centralized in `js/site-config.js` (`CONTACT_EMAIL`) —
+  currently the founder's live Gmail. The two static no-JS fallback `href`s in
+  `index.html` (finale primary CTA, pricing quote button) must be kept in sync
+  by hand when it changes.
 - Fonts preloaded; scripts deferred/module; heights reserved to avoid layout shift.
 - Hosting note: serve `assets/vendor/*.js` with gzip/brotli and long-lived
   `Cache-Control` (any mainstream static host does this automatically) — three.js
@@ -78,11 +88,12 @@ These are intentionally left as obvious placeholders:
 
 | Placeholder | Where | Notes |
 |---|---|---|
-| `[SETUP FEE]` | Pricing teaser | Rendered as an emerald-outline chip. Swap for real price. |
-| `[MONTHLY PRICE]` | Pricing teaser | Same — one-swap literal. |
 | `[INSTAGRAM] [X] [LINKEDIN] [EMAIL]` | Footer | Social placeholder chips → real profile links. |
-| `mailto:hello@cresscit.com` | Finale primary CTA (no-JS fallback) **and** the Preview Machine's "Get My Hand-Built Preview" CTA (`js/preview-machine.js`, `MAILTO_ADDR`) | Placeholder address — swap in both places (or just `MAILTO_ADDR` + the HTML fallback href). |
+| Contact email | `js/site-config.js` (`CONTACT_EMAIL`) + the two no-JS fallback `href`s in `index.html` | **Live Gmail** (`cresscit@gmail.com`) — real leads arrive there today; swap to a custom-domain inbox later. One edit in `site-config.js` covers both overlays. |
 | **og:image** | `<head>` | **Not yet added.** Add an Open Graph image and a `<meta property="og:image">` tag before sharing on social. |
+
+(The former `[SETUP FEE]` / `[MONTHLY PRICE]` chips were removed when the
+pricing section switched to the quote-request flow.)
 
 ## Credits
 

@@ -127,3 +127,54 @@ Close preview
 - Hero headline template: {{NAME}} — open and easy to find
 - Hero sub: What you do, done well, one click away.
 - Section labels: About / Services / Contact
+
+## QUOTE FORM
+
+### Overlay headline
+Let's price your site.
+
+### Overlay subline
+A few quick questions — we'll come back with one flat price.
+
+### Business-name field
+- Label: Your business name
+- Placeholder: e.g. Ember & Oak
+
+### Vertical picker
+- Label: What do you do?
+- Options: reuses the Preview Machine's four — Restaurant / Trades & Contracting / Clinic / Something Else
+
+### Current-website question
+- Label: Do you have a website today?
+- Option 1: Yes, but it needs work
+- Option 2: No, starting fresh
+
+### Needs checklist (multi-select)
+- Label: What do you need?
+- Option 1: A brand-new website
+- Option 2: A redesign of my current site
+- Option 3: Online booking or reservations
+- Option 4: A menu, services, or price list
+- Option 5: Contact or quote forms
+- Option 6: An online store
+- Option 7: Not sure yet — that's fine
+
+### Free-notes field
+- Label: Anything else we should know?
+- Placeholder: Deadlines, sites you like, budget worries — anything helps. Optional.
+
+### Submit button
+Send My Request
+
+### Helper line under submit
+This opens your email app with everything pre-written — hit send and we'll reply with one flat quote.
+
+### Clipboard fallback
+- Link-button label: No email app? Copy instead
+- Confirmation toast: Copied — ready to paste.
+
+### Close button aria-label
+Close quote form
+
+### Email subject template
+Website quote request — {{NAME}}

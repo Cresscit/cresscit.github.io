@@ -1213,6 +1213,39 @@ h1, h2, h3 { line-height: var(--lh-snug); font-weight: 400; }
   .pm-chip__text { padding: var(--space-1) var(--space-2); }
 }
 
+/* @component: quote-form ----------------------------------------------------
+   Intake overlay for js/quote-form.js (lazy module). Reuses the .pm- dialog
+   shell (overlay/backdrop/panel/close/form/chips) — only quote-form-specific
+   extensions live here. Chip inputs are radios AND checkboxes; the shared
+   .pm-chip__radio rules are input-type-agnostic. */
+.qf-form { gap: var(--space-3); }
+.qf-notes {
+  resize: vertical;
+  min-height: calc(3 * var(--space-4));
+  font-family: var(--font-body);
+  line-height: var(--lh-body);
+}
+.qf-submit { justify-self: start; margin-top: var(--space-2); }
+.qf-helper {
+  color: var(--cream-dim);
+  font-size: var(--fs-200);
+  max-width: 52ch;
+  min-height: 1.6em;
+  transition: color var(--dur-base) var(--ease-out);
+}
+.qf-helper--sent { color: var(--emerald); }
+.qf-copybtn { justify-self: start; }
+.qf-toast {
+  color: var(--emerald);
+  font-size: var(--fs-100);
+  min-height: 1.4em;
+}
+.qf-manual {
+  font-family: var(--font-mono);
+  font-size: var(--fs-100);
+  line-height: 1.5;
+}
+
 /* ---- Reduced motion: kill kinetics, keep everything readable ------------ */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

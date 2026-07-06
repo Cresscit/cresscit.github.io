@@ -14,6 +14,8 @@
    Styles: css/main.css under "@component: preview-machine".
    ========================================================================== */
 
+import { CONTACT_EMAIL } from './site-config.js';
+
 /* ---- Copy (verbatim) ----------------------------------------------------- */
 const COPY = {
   headline: 'See your site take shape.',
@@ -70,7 +72,7 @@ const VERTICALS = [
   },
 ];
 
-const MAILTO_ADDR = 'hello@cresscit.com'; // documented placeholder (README)
+const MAILTO_ADDR = CONTACT_EMAIL; // centralized in js/site-config.js
 
 /* ---- Tiny DOM helpers (no innerHTML anywhere near user input) ------------ */
 function el(tag, className, text) {
