@@ -2,7 +2,8 @@
    CRESSCIT — Main stylesheet
    All raw values come from css/tokens.css custom properties.
    Order: reset · base · utilities · grain · nav · hero · stats · pillars ·
-          work · steps · pricing · finale · footer · reduced-motion
+          work · steps · service-area · pricing · faq · finale · footer ·
+          reduced-motion
    ========================================================================== */
 
 /* ---- Reset / base ------------------------------------------------------- */
@@ -266,7 +267,9 @@ h1, h2, h3 { line-height: var(--lh-snug); font-weight: 400; }
 .webgl-ready .stats { background: rgba(10, 10, 12, .62); }
 .webgl-ready .work { background: rgba(10, 10, 12, .5); }
 .webgl-ready .steps { background: rgba(10, 10, 12, .58); }
+.webgl-ready .service-area { background: rgba(16, 16, 20, .66); }
 .webgl-ready .pricing { background: rgba(16, 16, 20, .66); }
+.webgl-ready .faq { background: rgba(10, 10, 12, .58); }
 .webgl-ready .pillars,
 .webgl-ready .finale { background: transparent; }
 /* Cards keep their own panel fill so mockups stay legible over the world. */
@@ -730,6 +733,41 @@ h1, h2, h3 { line-height: var(--lh-snug); font-weight: 400; }
 .step__name { font-size: var(--fs-400); font-weight: 600; margin-top: var(--space-2); }
 .step__line { margin-top: var(--space-2); color: var(--cream-dim); font-size: var(--fs-200); }
 
+/* @component: service-area ------------------------------------------------ */
+/* Quiet band, pricing-like (ink-2). Static, crawlable copy — the cities are
+   subtly emphasized (full cream vs cream-dim body). Reveal-on-scroll via the
+   shared .reveal observer, consistent with the steps/cards entrance. */
+.service-area {
+  position: relative;
+  z-index: var(--z-content);
+  background: var(--ink-2);
+  padding: var(--space-7) var(--gutter);
+  border-top: var(--hairline);
+}
+.service-area__inner {
+  max-width: var(--maxw-narrow);
+  margin: 0 auto;
+  text-align: center;
+}
+.service-area__title {
+  font-family: var(--font-display);
+  font-size: var(--fs-600);
+  line-height: 1.02;
+  letter-spacing: .01em;
+}
+.service-area__body {
+  margin: var(--space-4) auto 0;
+  max-width: 52ch;
+  font-size: var(--fs-400);
+  color: var(--cream-dim);
+}
+.service-area__city { color: var(--cream); }
+.service-area__micro {
+  margin-top: var(--space-4);
+  color: var(--cream-dim);
+  font-size: var(--fs-200);
+}
+
 /* @component: pricing ----------------------------------------------------- */
 .pricing {
   background: var(--ink-2);
@@ -747,6 +785,64 @@ h1, h2, h3 { line-height: var(--lh-snug); font-weight: 400; }
 .pricing__detail { margin-top: var(--space-4); font-size: var(--fs-400); color: var(--cream-dim); }
 .pricing__actions { margin-top: var(--space-6); display: flex; justify-content: center; }
 .pricing__micro { margin-top: var(--space-4); color: var(--cream-dim); font-size: var(--fs-200); }
+
+/* @component: faq ----------------------------------------------------------
+   Native <details>/<summary> — crawlable, zero-JS, keyboard-accessible.
+   Brand styling only: hairline dividers, body-font 600 summaries with a
+   CSS-only emerald +/− indicator (details[open] flips it), cream-dim answers,
+   generous padding (40px+ tap targets). Items reveal via the shared observer. */
+.faq {
+  position: relative;
+  z-index: var(--z-content);
+  background: var(--ink);
+  padding: var(--space-8) var(--gutter);
+}
+.faq__inner { max-width: var(--maxw-narrow); margin: 0 auto; }
+.faq__title {
+  font-family: var(--font-display);
+  font-size: var(--fs-600);
+  letter-spacing: .01em;
+  margin-bottom: var(--space-6);
+}
+.faq__item { border-top: var(--hairline); }
+.faq__item:last-child { border-bottom: var(--hairline); }
+.faq__q {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  list-style: none;                 /* hide the native disclosure triangle */
+  cursor: pointer;
+  min-height: var(--space-5);       /* 40px+ tap target (padding grows it) */
+  padding: var(--space-4) 0;
+  font-weight: 600;
+  font-size: var(--fs-300);
+  color: var(--cream);
+  transition: color var(--dur-base) var(--ease-out);
+}
+.faq__q::-webkit-details-marker { display: none; }
+.faq__q:hover { color: var(--emerald); }
+.faq__q:focus-visible {
+  outline: 2px solid var(--emerald);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+/* Emerald +/− indicator — pure CSS, keyed off details[open]. */
+.faq__q::after {
+  content: "+";
+  flex: none;
+  font-family: var(--font-display);
+  font-size: var(--fs-400);
+  line-height: 1;
+  color: var(--emerald);
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.faq__item[open] .faq__q::after { content: "\2212"; }   /* minus sign */
+.faq__a {
+  padding: 0 0 var(--space-4);
+  max-width: 60ch;
+  color: var(--cream-dim);
+}
 
 /* @component: ph (placeholder chip) */
 .ph {

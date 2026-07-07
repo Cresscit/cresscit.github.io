@@ -5,16 +5,124 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- @component: seo-head -->
-  <title>Cresscit — We Build and Run Your Website</title>
-  <meta name="description" content="Cresscit builds your small business website and runs it for good — hosting, maintenance, and edits, all in one flat monthly fee. Live in days.">
+  <title>Cresscit — Website Design &amp; Care, Fraser Valley BC</title>
+  <meta name="description" content="Small business websites for Surrey, Vancouver, Abbotsford, Chilliwack &amp; Mission. One flat monthly fee, live in about a week. Free preview.">
   <meta name="theme-color" content="#0a0a0c">
+  <link rel="canonical" href="https://cresscit.github.io/">
+
+  <!-- Google Search Console verification (HTML-tag method) — activate: replace PENDING and uncomment. -->
+  <!-- <meta name="google-site-verification" content="PENDING"> -->
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="Cresscit — We Build and Run Your Website So You Never Have To">
   <meta property="og:description" content="A website that just works. Cresscit designs, launches, and maintains it — one flat monthly fee, zero effort from you.">
-  <!-- og:image intentionally omitted for now — see README. -->
+  <meta property="og:url" content="https://cresscit.github.io/">
+  <meta property="og:image" content="https://cresscit.github.io/assets/img/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Cresscit — We Build and Run Your Website So You Never Have To">
+  <meta name="twitter:description" content="A website that just works. Cresscit designs, launches, and maintains it — one flat monthly fee, zero effort from you.">
+  <meta name="twitter:image" content="https://cresscit.github.io/assets/img/og.png">
 
   <link rel="icon" type="image/svg+xml" href="./assets/img/favicon.svg">
+
+  <!-- @component: structured-data (JSON-LD; three blocks) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Cresscit",
+    "url": "https://cresscit.github.io/",
+    "email": "cresscit@gmail.com",
+    "description": "Small business websites for Surrey, Vancouver, Abbotsford, Chilliwack & Mission. One flat monthly fee, live in about a week. Free preview.",
+    "priceRange": "$$",
+    "founder": {
+      "@type": "Person",
+      "name": "inder"
+    },
+    "areaServed": [
+      { "@type": "City", "name": "Surrey", "address": { "@type": "PostalAddress", "addressRegion": "BC", "addressCountry": "CA" } },
+      { "@type": "City", "name": "Vancouver", "address": { "@type": "PostalAddress", "addressRegion": "BC", "addressCountry": "CA" } },
+      { "@type": "City", "name": "Abbotsford", "address": { "@type": "PostalAddress", "addressRegion": "BC", "addressCountry": "CA" } },
+      { "@type": "City", "name": "Chilliwack", "address": { "@type": "PostalAddress", "addressRegion": "BC", "addressCountry": "CA" } },
+      { "@type": "City", "name": "Mission", "address": { "@type": "PostalAddress", "addressRegion": "BC", "addressCountry": "CA" } }
+    ],
+    "sameAs": []
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Cresscit",
+    "url": "https://cresscit.github.io/"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How much does a website cost?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "There's no set number — we quote every business individually, based on what you actually need. It's one flat monthly fee that covers the whole thing, and the quote itself is free."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How long until my site is live?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "About a week, start to finish. No six-week build cycles, no waiting in an agency queue."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do I own my website?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes — the domain, the content, the leads it brings in, all yours. We run the hosting and maintenance while you're subscribed, but none of it is locked to us."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What does the monthly fee include?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Hosting, maintenance, security, small edits, and support — bundled into that one line item. No surprise invoices, no upsells."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What happens if I cancel?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No contract, so you just tell us. You keep your domain and your content; we stop hosting and maintaining the site. Straightforward, no hard feelings."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do you work with businesses outside Surrey, Vancouver, Abbotsford, Chilliwack, and Mission?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, anywhere in BC and beyond — those five are just our home turf. The process is the same wherever you are."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What's the free preview?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Before you pay anything, we hand-build a real homepage preview for your business so you can see what you'd actually get. No obligation either way."
+        }
+      }
+    ]
+  }
+  </script>
 
   <!-- Preload the two above-the-fold faces (display title + body). -->
   <link rel="preload" href="./assets/fonts/bebas-neue-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -259,6 +367,23 @@
       </div>
     </section>
 
+    <!-- @component: service-area -->
+    <section class="service-area" aria-labelledby="service-area-heading">
+      <div class="service-area__inner reveal">
+        <h2 class="service-area__title" id="service-area-heading">Built for the Fraser Valley and beyond</h2>
+        <p class="service-area__body">
+          Cresscit is based in BC and builds for business owners across
+          <span class="service-area__city">Surrey</span>,
+          <span class="service-area__city">Vancouver</span>,
+          <span class="service-area__city">Abbotsford</span>,
+          <span class="service-area__city">Chilliwack</span>, and
+          <span class="service-area__city">Mission</span>.
+          Same process everywhere — a real site, live in about a week, for one flat monthly fee. We know these towns because we're in them.
+        </p>
+        <p class="service-area__micro">Elsewhere in BC? We still build it — just say so on the form.</p>
+      </div>
+    </section>
+
     <!-- @component: pricing -->
     <section class="pricing" id="pricing" aria-labelledby="pricing-heading">
       <div class="pricing__inner">
@@ -270,6 +395,57 @@
           <a class="btn btn--primary" href="mailto:cresscit@gmail.com?subject=Website%20quote%20request" data-quote-trigger>Request a Quote</a>
         </div>
         <p class="pricing__micro">The quote is free. So is saying no.</p>
+      </div>
+    </section>
+
+    <!-- @component: faq -->
+    <section class="faq" id="faq" aria-labelledby="faq-heading">
+      <div class="faq__inner">
+        <h2 class="faq__title" id="faq-heading">Questions</h2>
+        <div class="faq__list">
+          <details class="faq__item reveal">
+            <summary class="faq__q">How much does a website cost?</summary>
+            <div class="faq__a">
+              <p>There's no set number — we quote every business individually, based on what you actually need. It's one flat monthly fee that covers the whole thing, and the quote itself is free.</p>
+            </div>
+          </details>
+          <details class="faq__item reveal">
+            <summary class="faq__q">How long until my site is live?</summary>
+            <div class="faq__a">
+              <p>About a week, start to finish. No six-week build cycles, no waiting in an agency queue.</p>
+            </div>
+          </details>
+          <details class="faq__item reveal">
+            <summary class="faq__q">Do I own my website?</summary>
+            <div class="faq__a">
+              <p>Yes — the domain, the content, the leads it brings in, all yours. We run the hosting and maintenance while you're subscribed, but none of it is locked to us.</p>
+            </div>
+          </details>
+          <details class="faq__item reveal">
+            <summary class="faq__q">What does the monthly fee include?</summary>
+            <div class="faq__a">
+              <p>Hosting, maintenance, security, small edits, and support — bundled into that one line item. No surprise invoices, no upsells.</p>
+            </div>
+          </details>
+          <details class="faq__item reveal">
+            <summary class="faq__q">What happens if I cancel?</summary>
+            <div class="faq__a">
+              <p>No contract, so you just tell us. You keep your domain and your content; we stop hosting and maintaining the site. Straightforward, no hard feelings.</p>
+            </div>
+          </details>
+          <details class="faq__item reveal">
+            <summary class="faq__q">Do you work with businesses outside Surrey, Vancouver, Abbotsford, Chilliwack, and Mission?</summary>
+            <div class="faq__a">
+              <p>Yes, anywhere in BC and beyond — those five are just our home turf. The process is the same wherever you are.</p>
+            </div>
+          </details>
+          <details class="faq__item reveal">
+            <summary class="faq__q">What's the free preview?</summary>
+            <div class="faq__a">
+              <p>Before you pay anything, we hand-build a real homepage preview for your business so you can see what you'd actually get. No obligation either way.</p>
+            </div>
+          </details>
+        </div>
       </div>
     </section>
 
@@ -300,5 +476,8 @@
       <p class="footer__credit">Founded by inder. &nbsp;·&nbsp; © 2026 Cresscit</p>
     </div>
   </footer>
+
+  <!-- ANALYTICS (activate: replace CODE with the GoatCounter code and uncomment)
+  <script data-goatcounter="https://CODE.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script> -->
 </body>
 </html>

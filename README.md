@@ -34,11 +34,12 @@ work — ES modules and the import map require an `http(s)` origin.
 
 ```
 index.html          404.html
+robots.txt          sitemap.xml         (crawl files — single-URL sitemap)
 css/tokens.css      css/main.css        (all design tokens live in tokens.css)
 js/main.js          js/hero-scene.js    (main = one rAF loop; hero-scene = WebGL)
 js/preview-machine.js  js/quote-form.js (CTA overlays — lazy, load on first click)
 js/site-config.js                       (CONTACT_EMAIL — one place to change it)
-assets/vendor/      assets/fonts/       assets/img/favicon.svg
+assets/vendor/      assets/fonts/       assets/img/ (favicon.svg, og.png)
 content/            (specs + copy.md — source of truth, not shipped code)
 ```
 
@@ -88,16 +89,41 @@ component library.
   `Cache-Control` (any mainstream static host does this automatically) — three.js
   is ~654 KB raw but ~162 KB gzipped.
 
+## SEO
+
+- Title/meta description target the Fraser Valley locally; `<link rel="canonical">`
+  points at `https://cresscit.github.io/`.
+- Three inline JSON-LD blocks in `<head>`: **ProfessionalService** (areaServed =
+  Surrey / Vancouver / Abbotsford / Chilliwack / Mission), **WebSite**, and
+  **FAQPage** — the FAQPage text must stay word-for-word identical to the on-page
+  FAQ (`#faq`); edit both together or Google drops the rich result. No invented
+  data (no ratings / phone / street address).
+- The FAQ uses native `<details>/<summary>` — crawlable, keyboard-accessible,
+  zero JS. The service-area band (`.service-area`) is plain static copy.
+- `robots.txt` (allow all) + single-URL `sitemap.xml` at repo root; bump
+  `<lastmod>` on meaningful releases.
+- Open Graph / Twitter card image: `assets/img/og.png`, exactly 1200×630 —
+  regenerate with headless Chrome against the locally served hero if the hero
+  or title changes.
+- **Analytics (GoatCounter, pending)**: create a free account at goatcounter.com
+  (site code `cresscit`), then uncomment the `ANALYTICS` snippet before `</body>`
+  and replace `CODE`. Activated, it is the site's only allowed external request.
+- **Google Search Console (pending)**: HTML-tag verification — uncomment the
+  `google-site-verification` meta in `<head>` and replace `PENDING` with the
+  real token, then submit `sitemap.xml` in Search Console.
+
 ## Placeholders to swap before launch
 
 These are intentionally left as obvious placeholders:
 
 | Placeholder | Where | Notes |
 |---|---|---|
-| `[INSTAGRAM] [X] [LINKEDIN] [EMAIL]` | Footer | Social placeholder chips → real profile links. |
+| `[INSTAGRAM] [X] [LINKEDIN] [EMAIL]` | Footer | Social placeholder chips → real profile links. (Also mirror them into the `sameAs` array of the ProfessionalService JSON-LD in `index.html` — empty for now.) |
 | Contact email | `js/site-config.js` (`CONTACT_EMAIL`) + the two no-JS fallback `href`s in `index.html` | **Live Gmail** (`cresscit@gmail.com`) — real leads arrive there today; swap to a custom-domain inbox later. One edit in `site-config.js` covers both overlays. |
-| `WEB3FORMS_KEY` | `js/site-config.js` | Currently `'PENDING_KEY_FROM_FOUNDER'` — the quote form's direct submit will fail (and offer the mailto fallback) until the real Web3Forms access key is pasted in. Public-by-design, safe to commit. |
-| **og:image** | `<head>` | **Not yet added.** Add an Open Graph image and a `<meta property="og:image">` tag before sharing on social. |
+| ~~`WEB3FORMS_KEY`~~ | `js/site-config.js` | **Live.** Real access key installed; quote-form submits deliver end-to-end (verified). Public-by-design, safe to commit. |
+| ~~og:image~~ | `<head>` | **Done.** `assets/img/og.png` (1200×630, hero capture) is wired up with `og:image` + `twitter:card` tags. Regenerate via headless Chrome if the hero changes. |
+| **Analytics (GoatCounter)** | `index.html`, just before `</body>` | **Pending founder.** Create a free account at [goatcounter.com](https://www.goatcounter.com) with site code `cresscit`, then in the commented-out `ANALYTICS` snippet replace `CODE` with that code and uncomment. When activated this is the site's ONLY allowed external request. |
+| **Google Search Console** | `index.html` `<head>` | **Pending founder.** Verify ownership via the HTML-tag method: replace `PENDING` in the commented-out `google-site-verification` meta with the token from Search Console and uncomment. |
 
 (The former `[SETUP FEE]` / `[MONTHLY PRICE]` chips were removed when the
 pricing section switched to the quote-request flow.)

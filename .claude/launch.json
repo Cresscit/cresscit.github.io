@@ -1,0 +1,18 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "cresscit",
+      "runtimeExecutable": "C:\\Program Files\\nodejs\\node.exe",
+      "runtimeArgs": [
+        "C:\\Users\\amnin\\AppData\\Roaming\\npm\\node_modules\\http-server\\bin\\http-server",
+        "C:\\Users\\amnin\\OneDrive\\Desktop\\CLAUDE WD\\cresscit",
+        "-p",
+        "8321",
+        "-c-1",
+        "--silent"
+      ],
+      "port": 8321
+    }
+  ]
+}

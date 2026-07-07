@@ -43,6 +43,11 @@ Cresscit built a calm, clear site that gets patients to booking in one click.
 2. **Build** — We design and build your site around what you told us.
 3. **Run** — We host it, maintain it, and handle small edits — for as long as you're with us.
 
+## SERVICE AREA
+- Section heading (on-page): Built for the Fraser Valley and beyond
+- Body: Cresscit is based in BC and builds for business owners across Surrey, Vancouver, Abbotsford, Chilliwack, and Mission. Same process everywhere — a real site, live in about a week, for one flat monthly fee. We know these towns because we're in them.
+- Microline: Elsewhere in BC? We still build it — just say so on the form.
+
 ## PRICING — REQUEST A QUOTE
 - Section heading (on-page): Pricing
 - Lead line: One flat monthly fee. Everything included.
@@ -50,6 +55,30 @@ Cresscit built a calm, clear site that gets patients to booking in one click.
 - Button label: Request a Quote
 - Mailto subject: Website quote request
 - Microline: The quote is free. So is saying no.
+
+## FAQ
+- Section heading (on-page): Questions
+
+1. **How much does a website cost?**
+   There's no set number — we quote every business individually, based on what you actually need. It's one flat monthly fee that covers the whole thing, and the quote itself is free.
+
+2. **How long until my site is live?**
+   About a week, start to finish. No six-week build cycles, no waiting in an agency queue.
+
+3. **Do I own my website?**
+   Yes — the domain, the content, the leads it brings in, all yours. We run the hosting and maintenance while you're subscribed, but none of it is locked to us.
+
+4. **What does the monthly fee include?**
+   Hosting, maintenance, security, small edits, and support — bundled into that one line item. No surprise invoices, no upsells.
+
+5. **What happens if I cancel?**
+   No contract, so you just tell us. You keep your domain and your content; we stop hosting and maintaining the site. Straightforward, no hard feelings.
+
+6. **Do you work with businesses outside Surrey, Vancouver, Abbotsford, Chilliwack, and Mission?**
+   Yes, anywhere in BC and beyond — those five are just our home turf. The process is the same wherever you are.
+
+7. **What's the free preview?**
+   Before you pay anything, we hand-build a real homepage preview for your business so you can see what you'd actually get. No obligation either way.
 
 ## FINALE CTA
 - Closing line: Get your site live this week.
@@ -63,8 +92,8 @@ Cresscit built a calm, clear site that gets patients to booking in one click.
 - Credit line: Founded by inder.
 
 ## SEO META
-- Title tag: Cresscit — We Build and Run Your Website
-- Meta description: Cresscit builds your small business website and runs it for good — hosting, maintenance, and edits, all in one flat monthly fee. Live in days.
+- Title tag: Cresscit — Website Design & Care, Fraser Valley BC
+- Meta description: Small business websites for Surrey, Vancouver, Abbotsford, Chilliwack & Mission. One flat monthly fee, live in about a week. Free preview.
 - OG title: Cresscit — We Build and Run Your Website So You Never Have To
 - OG description: A website that just works. Cresscit designs, launches, and maintains it — one flat monthly fee, zero effort from you.
 

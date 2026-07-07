@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://cresscit.github.io/sitemap.xml

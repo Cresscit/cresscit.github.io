@@ -15,12 +15,13 @@
 
    ── Camera journey (station ↔ P range; the DOM sections are laid out so these
       land on the right content) ─────────────────────────────────────────────
-     1 MONOLITH ORBIT   P 0    – 0.18  hero: exactly today's one-orbit behavior
-     2 RECESSION        P 0.18 – 0.28  monolith drifts back/down, world dims
-     3 THE FORGE        P 0.28 – 0.55  field of holographic browser windows
-     4 THE DELIVERY     P 0.55 – 0.75  gallery lane of three angled site screens
-     5 THE CALM         P 0.75 – 0.88  sparse dust, monolith re-approaching afar
-     6 THE RETURN       P 0.88 – 1.00  monolith arrives close, front-facing
+     1 MONOLITH ORBIT   P 0     – 0.18   hero: exactly today's one-orbit behavior
+     2 RECESSION        P 0.18  – 0.28   monolith drifts back/down, world dims
+     3 THE FORGE        P 0.28  – 0.46   field of holographic browser windows
+     4 THE DELIVERY     P 0.46  – 0.645  gallery lane of three angled site screens
+     5 THE CALM         P 0.645 – 0.88   sparse dust (steps → service-area →
+                                         pricing → FAQ), monolith afar
+     6 THE RETURN       P 0.88  – 1.00   monolith arrives close, front-facing
 
    Hero orbit contract (unchanged): the monolith's rotation/dolly during
    station 1 is driven by the HERO SECTION's own local progress (0→1 over its
@@ -50,12 +51,17 @@ const window01 = (a, b, x) => {
   return Math.min(smoothstep(a, m, x), 1 - smoothstep(m, b, x));
 };
 
-/* Station boundaries (P). Tunable ±3% per spec. */
+/* Station boundaries (P). Tunable ±3% per spec.
+   RETUNED for the SEO sections (service-area + FAQ, ~1.5k px of DOM added in
+   the calm band): the mid-journey boundaries shifted earlier so the forge
+   still tracks the pillars pin (releases ~P .46 at 1280×800) and the gallery
+   tracks the work cards (leave viewport ~P .645) — measured, not guessed.
+   Orbit/recession/calm boundaries verified still aligned and left untouched. */
 const ST = {
   orbitEnd:     0.18,
   recessEnd:    0.28,
-  forgeEnd:     0.55,
-  deliveryEnd:  0.75,
+  forgeEnd:     0.46,
+  deliveryEnd:  0.645,
   calmEnd:      0.88,
   // returnEnd = 1.0
 };
@@ -660,7 +666,7 @@ export function initHeroScene(canvas, { reducedMotion = false } = {}) {
          • return    → arrives close (Z ~ -0.5), front-facing, slightly larger */
     const recede = smoothstep(ST.orbitEnd, ST.recessEnd, P);   // .18→.28
     // Far approach begins in calm so a silhouette is visible before the finale.
-    const approach = smoothstep(ST.deliveryEnd, 1.0, P);       // .75→1
+    const approach = smoothstep(ST.deliveryEnd, 1.0, P);       // deliveryEnd→1
 
     /* ---------- WORLD forward travel (single keyframed camera timeline) ---
        Move the `world` group along +Z past a mostly-stationary camera. Computed
@@ -708,7 +714,7 @@ export function initHeroScene(canvas, { reducedMotion = false } = {}) {
     // otherwise it tracks the world dimming.
     screenMat.emissiveIntensity = 1.15 * (approach > 0.1 ? 1 : recessionDim);
 
-    /* ---------- FORGE (station 3, P .28→.55) ---------------------------- */
+    /* ---------- FORGE (station 3, P .28→ST.forgeEnd) --------------------- */
     const forgeIn = smoothstep(ST.recessEnd - 0.02, ST.forgeEnd, P);
     const forgeOut = smoothstep(ST.forgeEnd - 0.02, ST.deliveryEnd - 0.02, P);
     const forgeVisual = forgeIn * (1 - forgeOut);
@@ -732,7 +738,7 @@ export function initHeroScene(canvas, { reducedMotion = false } = {}) {
       }
     }
 
-    /* ---------- DELIVERY (station 4, P .55→.75) -------------------------
+    /* ---------- DELIVERY (station 4, ST.forgeEnd→ST.deliveryEnd) ---------
        The gallery lane. `world` translates forward as we progress; we position
        the delivery group so the three screens sweep through the camera framing
        one-by-one across the delivery range, each pulsing emerald as it passes
