@@ -493,19 +493,22 @@ export function initHeroScene(canvas, { reducedMotion = false } = {}) {
       map: tex, transparent: true, opacity: 0.96, toneMapped: false, depthWrite: false,
     });
     const mesh = new THREE.Mesh(screenPlaneGeo, mat);
-    // Alternate sides of the lane, angled inward toward the camera sightline so
-    // the camera "passes" each screen. Kept fairly head-on (small yaw) and near
-    // the centre so each reads large as it comes up.
+    // Alternate sides of the lane. LANDSCAPE (the QA-passed composition): the
+    // screens flank the lane laterally, angled inward toward the passing camera.
+    // PORTRAIT: the narrow horizontal FOV can't see a laterally-flanking screen,
+    // so layoutDelivery() (below) re-composes them into a centred, depth-
+    // staggered arrangement. Both placements are applied by layoutDelivery();
+    // here we only stash the per-screen baseline the layout keys off.
     const side = i % 2 === 0 ? -1 : 1;
     const baseZ = -i * LANE_SPACING;
-    mesh.position.set(side * 2.4, 0.1, baseZ);
-    mesh.rotation.y = -side * 0.34;   // angled to face the passing camera
+    mesh.position.set(side * 2.4, 0.1, baseZ);   // landscape default (overwritten by layout)
+    mesh.rotation.y = -side * 0.34;
     const frameEdges = new THREE.LineSegments(
       new THREE.EdgesGeometry(screenPlaneGeo),
       new THREE.LineBasicMaterial({ color: 0x19e08c, transparent: true, opacity: 0.4 })
     );
     mesh.add(frameEdges);
-    mesh.userData = { mat, frameEdges, baseZ, side };
+    mesh.userData = { mat, frameEdges, baseZ, side, index: i };
     delivery.add(mesh);
     return mesh;
   });
@@ -513,6 +516,47 @@ export function initHeroScene(canvas, { reducedMotion = false } = {}) {
   // the three screens sweep through the camera's framing one after another.
   // (delivery group Z is set each frame in applyProgress relative to worldZ.)
   delivery.position.z = 0;
+
+  /* ---- Aspect-aware DELIVERY composition -------------------------------
+     The camera dollies straight down the centre of the lane (X≈0) while the
+     delivery group's Z sweeps each screen through the framing in turn. What
+     changes with aspect is only each screen's static X / yaw / scale:
+
+       • LANDSCAPE (aspect ≥ ~0.82): the original QA-passed values, byte-for-
+         byte — screens flank the lane at X = side·2.4, yaw = -side·0.34,
+         scale 1. Desktop is untouched.
+       • PORTRAIT (aspect ≤ ~0.62): screens pulled onto the centre lane with
+         small alternating offsets (so consecutive ones don't perfectly stack),
+         yaw eased toward head-on, and scaled down so a 4.6-wide plane fits the
+         narrow frustum with margin. The camera then passes each one head-on and
+         cleanly framed, right as its DOM work-card is on screen (the Z-sweep
+         timing in applyProgress is aspect-independent, so that pairing holds).
+
+     Between the two we blend smoothly on aspect so an orientation change or a
+     resized window never snaps. No geometry/material/draw-call changes — this
+     only moves existing meshes, so the perf budget is unaffected. */
+  const DELIVERY_ASPECT_LO = 0.62;   // fully portrait composition at/below this
+  const DELIVERY_ASPECT_HI = 0.82;   // fully landscape (original) at/above this
+  function layoutDelivery() {
+    // t: 0 = full landscape (original), 1 = full portrait (centre lane).
+    const t = 1 - smoothstep(DELIVERY_ASPECT_LO, DELIVERY_ASPECT_HI, camera.aspect);
+    for (const mesh of deliveryScreens) {
+      const { side, index } = mesh.userData;
+      // Landscape targets (unchanged QA-passed values).
+      const xL = side * 2.4, yawL = -side * 0.34, sL = 1;
+      // Portrait targets: near-centre, gently alternating so depth reads;
+      // slight head-on yaw for a touch of dimensionality; scaled to fit the
+      // ~±2.1u half-width visible at the pass distance in a 375×812 frustum.
+      const xP = side * 0.34, yawP = -side * 0.12, sP = 0.8;
+      mesh.position.x = lerp(xL, xP, t);
+      mesh.rotation.y = lerp(yawL, yawP, t);
+      mesh.scale.setScalar(lerp(sL, sP, t));
+      // Small vertical stagger in portrait so stacked screens separate a little
+      // as one passes behind the next (0 in landscape — original had y = 0.1).
+      mesh.position.y = 0.1 + t * (index - 1) * 0.18;
+    }
+  }
+  layoutDelivery();
 
   /* ======================================================================
      Shared EMERALD DUST — one persistent particle system for the whole world.
@@ -565,9 +609,15 @@ export function initHeroScene(canvas, { reducedMotion = false } = {}) {
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
+    // Aspect changed → re-compose the delivery gallery (portrait vs landscape).
+    // Cheap position/scale update on 3 existing meshes; no scene rebuild, no new
+    // draw calls. Covers both `resize` and `orientationchange` (which fires a
+    // resize on all current mobile browsers).
+    layoutDelivery();
   }
   resize();
   window.addEventListener('resize', resize);
+  window.addEventListener('orientationchange', resize);
 
   /* ---- Context-loss handling ------------------------------------------ */
   let contextLost = false;
@@ -711,10 +761,18 @@ export function initHeroScene(canvas, { reducedMotion = false } = {}) {
     }
 
     /* ---------- CAMERA drifts (lateral/vertical accents on the path) ----- */
+    // Portrait factor: 0 in landscape (desktop path untouched), →1 as the
+    // viewport narrows. Used to gently rein in lateral camera swings that would
+    // otherwise carry a cluster/screen out of the narrow horizontal FOV.
+    const portrait = 1 - smoothstep(DELIVERY_ASPECT_LO, DELIVERY_ASPECT_HI, camera.aspect);
     // Lateral camera drift across the forge thirds (left → center → right).
+    // In portrait the frustum is narrow, so a full ±1.4 swing pushes the outer
+    // clusters off-frame; scale the amplitude down (never below ~0.6×) so each
+    // third's windows stay in view. Landscape keeps the exact ±1.4 (portrait=0).
+    const forgeAmp = 1.4 * lerp(1, 0.6, portrait);
     const forgeLateralLocal = clamp01((P - ST.recessEnd) / (ST.forgeEnd - ST.recessEnd));
     const forgeLateral =
-      forge.visible ? lerp(-1.4, 1.4, smoothstep(0.1, 0.9, forgeLateralLocal)) : 0;
+      forge.visible ? lerp(-forgeAmp, forgeAmp, smoothstep(0.1, 0.9, forgeLateralLocal)) : 0;
 
     // Gallery: gentle side-to-side list as the camera passes each screen.
     const galleryLateral =
@@ -815,6 +873,7 @@ export function initHeroScene(canvas, { reducedMotion = false } = {}) {
     },
     dispose() {
       window.removeEventListener('resize', resize);
+      window.removeEventListener('orientationchange', resize);
       slabGeo.dispose(); screenGeo.dispose(); dustGeo.dispose();
       forgeGeo.dispose(); edgeGeo.dispose(); screenPlaneGeo.dispose();
       slabMat.dispose(); screenMat.dispose(); dustMat.dispose();
